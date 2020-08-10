@@ -16,7 +16,7 @@ class CacheController {
             console.log('CacheController received following row: ');
             console.log(row);
 
-            let baseKey   = cacheHelper.buildBaseKey('KEY_NAME');
+            let baseKey   = cacheHelper.buildBaseKey('KEY_NAME'); // you might want to change this
             let cacheData = {
                 "field_1_name"     : (typeof row.field_1_name.S != "undefined" ? row.field_1_name.S : ''),
                 "field_2_name"    : (typeof row.field_2_name.S != "undefined" ? row.field_2_name.S : '')
@@ -31,7 +31,7 @@ class CacheController {
 
     async deleteItem(row) {
         try {
-            let baseKey = cacheHelper.buildBaseKey('KEY_NAME');
+            let baseKey = cacheHelper.buildBaseKey('KEY_NAME'); // you might want to change this
             await this.redis.remove(baseKey);
         } catch (e) {
             console.error(`Delete data has failed: ${e.toString()}`);

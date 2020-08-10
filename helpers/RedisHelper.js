@@ -1,9 +1,9 @@
 'use strict';
 
 const redis         = require('redis');
+const { promisify } = require('util');
 const host          = process.env.REDIS_HOST;
 const port          = process.env.REDIS_PORT;
-const { promisify } = require('util');
 
 class RedisHelper {
     constructor(ttl) {

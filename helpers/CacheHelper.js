@@ -2,7 +2,7 @@
 
 class CacheHelper {
     constructor() {
-        this.keyBase = 'PREFIX';
+        this.keyBase = 'CACHE_PREFIX'; // you might want to change this
     }
     async asyncForEach(array, callback) {
         for (let index = 0; index < array.length; index++) {

@@ -1,7 +1,7 @@
 'use strict';
 
-const { CacheController } = require('./controllers/CacheController');
 const { CacheHelper }     = require('./helpers/CacheHelper');
+const { CacheController } = require('./controllers/CacheController');
 
 const cacheHelper     = new CacheHelper();
 const cacheController = new CacheController();
