@@ -1,16 +1,16 @@
 # Happy Coding!
 
-service: dynamo-trigger-cacher
+service: dynamodb-trigger-cache-hydrator
 
 provider:
   name: aws
   runtime: nodejs12.x
   region: us-east-1
   environment:
-    DYNAMODB_TABLE: users
-    REDIS_HOST: !ImportValue RedisHost
+    DYNAMODB_TABLE: YOUR_TABLE
+    REDIS_HOST: !ImportValue YOUR_REDIS_HOST
     REDIS_PORT: 6379
-    REDIS_TTL: 43200 # 12 hours
+    REDIS_TTL: 43200 # 12 hours - you might want to change this
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -25,10 +25,10 @@ provider:
 functions:
   process:
     handler: handler.process
-    description: Hydrate Users Cache
+    description: Hydrates Cache # you might want to change this
     reservedConcurrency: 10
     events:
       - stream:
           type: dynamodb
           arn:
-            !ImportValue UsersTableStreamARN
+            !ImportValue YOUR_TABLE_STREAM_ARN
