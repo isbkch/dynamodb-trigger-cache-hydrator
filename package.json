@@ -1,5 +1,5 @@
 {
-  "name": "lambda-trigger-hydrator",
+  "name": "dynamodb-trigger-cache-hydrator",
   "version": "1.0.0",
   "description": "This lambda function uses DynamoDb stream and updates Redis cache",
   "main": "handler.js",
@@ -12,12 +12,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/isbkch/dynamo-trigger-cacher.git"
+    "url": "git+https://github.com/isbkch/dynamodb-trigger-cache-hydrator.git"
   },
   "keywords": [],
   "author": "isbkch",
   "bugs": {
-    "url": "https://github.com/isbkch/dynamo-trigger-cacher/issues"
+    "url": "https://github.com/isbkch/dynamodb-trigger-cache-hydrator/issues"
   },
-  "homepage": "https://github.com/isbkch/dynamo-trigger-cacher#readme"
+  "homepage": "https://github.com/isbkch/dynamodb-trigger-cache-hydrator#readme"
 }
