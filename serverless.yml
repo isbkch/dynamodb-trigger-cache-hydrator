@@ -1,0 +1,34 @@
+# Happy Coding!
+
+service: dynamo-trigger-cacher
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: us-east-1
+  environment:
+    DYNAMODB_TABLE: users
+    REDIS_HOST: !ImportValue RedisHost
+    REDIS_PORT: 6379
+    REDIS_TTL: 43200 # 12 hours
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:GetRecords
+        - dynamodb:GetShardIterator
+        - dynamodb:DescribeStream
+        - dynamodb:ListStreams
+        - dynamodb:BatchGetItem
+      Resource:
+        - arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}
+
+functions:
+  process:
+    handler: handler.process
+    description: Hydrate Users Cache
+    reservedConcurrency: 10
+    events:
+      - stream:
+          type: dynamodb
+          arn:
+            !ImportValue UsersTableStreamARN
