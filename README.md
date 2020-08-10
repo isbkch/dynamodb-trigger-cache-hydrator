@@ -1,3 +1,3 @@
-# Cache Hydrator
+# DynamoDB Trigger Cache Hydrator
 
-This lambda function uses DynamoDb stream and updates Redis cache
+Once this Lambda function is deployed, it attach itself onto your DynamoDB table and triggers automatically after every DynamoDB operation (Insert, Modify, Delete).
