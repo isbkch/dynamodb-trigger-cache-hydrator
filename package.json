@@ -4,7 +4,7 @@
   "description": "This lambda function uses DynamoDb stream and updates Redis cache",
   "main": "handler.js",
   "dependencies": {
-    "redis": "^3.0.2"
+    "redis": "^4.0.4"
   },
   "devDependencies": {},
   "repository": {
