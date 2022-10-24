@@ -4,7 +4,7 @@ service: dynamodb-trigger-cache-hydrator
 
 provider:
   name: aws
-  runtime: nodejs12.x
+  runtime: nodejs16.x
   region: us-east-1
   environment:
     DYNAMODB_TABLE: YOUR_TABLE
