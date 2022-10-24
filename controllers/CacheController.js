@@ -18,8 +18,8 @@ class CacheController {
 
             let baseKey   = cacheHelper.buildBaseKey('KEY_NAME'); // you might want to change this
             let cacheData = {
-                "field_1_name"     : (typeof row.field_1_name.S != "undefined" ? row.field_1_name.S : ''),
-                "field_2_name"    : (typeof row.field_2_name.S != "undefined" ? row.field_2_name.S : '')
+                "field_1_name" : (typeof row.field_1_name.S != "undefined" ? row.field_1_name.S : ''),
+                "field_2_name" : (typeof row.field_2_name.S != "undefined" ? row.field_2_name.S : '')
             };
             console.log('cached data: ');
             console.log(cacheData);
