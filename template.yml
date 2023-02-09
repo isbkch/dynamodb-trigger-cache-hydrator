@@ -1,0 +1,85 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  dynamodb-cache-hydrator
+
+  SAM Template for dynamodb-cache-hydrator
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3
+    MemorySize: 128
+
+Resources:
+  CacheHydratorFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: ./src
+      Handler: handler.process
+      Runtime: nodejs16.x
+      Architectures:
+      - x86_64
+      Tracing: Active
+      Environment:
+        Variables:
+          LOG_LEVEL: INFO
+          DYNAMODB_TABLE: YOUR_TABLE
+          REDIS_HOST: !ImportValue YOUR_REDIS_HOST
+          REDIS_PORT: 6379
+          REDIS_TTL: 43200 # 12 hours - you might want to change this
+      Events:
+        DDBEvent:
+          Type: DynamoDB
+          Properties:
+            Stream: !GetAtt MyDynamoDBTable.StreamArn
+            StartingPosition: TRIM_HORIZON
+            BatchSize: 100
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName: !Ref MyDynamoDBTable
+      - ElasticacheRedisCrudPolicy:
+          ClusterId: !ImportValue YOUR_REDIS_CLUSTER_ID
+
+  ApplicationResourceGroup:
+    Type: AWS::ResourceGroups::Group
+    Properties:
+      Name:
+        Fn::Join:
+        - ''
+        - - ApplicationInsights-SAM-
+          - Ref: AWS::StackName
+      ResourceQuery:
+        Type: CLOUDFORMATION_STACK_1_0
+  
+  ApplicationInsightsMonitoring:
+    Type: AWS::ApplicationInsights::Application
+    Properties:
+      ResourceGroupName:
+        Fn::Join:
+        - ''
+        - - ApplicationInsights-SAM-
+          - Ref: AWS::StackName
+      AutoConfigurationEnabled: 'true'
+    DependsOn: ApplicationResourceGroup
+
+  MyDynamoDBTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+      TableName: YOUR_TABLE
+      Tags:
+        Name: YOUR_TABLE
+
+Outputs:
+  CacheHydratorFunction:
+    Description: Hello World Lambda Function ARN
+    Value: !GetAtt CacheHydratorFunction.Arn
+  CacheHydratorFunctionIamRole:
+    Description: Implicit IAM Role created for Hello World function
+    Value: !GetAtt CacheHydratorFunctionRole.Arn

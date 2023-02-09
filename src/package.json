@@ -1,0 +1,12 @@
+{
+  "name": "dynamodb-trigger-cache-hydrator",
+  "version": "0.5.1",
+  "description": "This lambda function uses DynamoDb stream and updates Redis cache",
+  "main": "handler.js",
+  "dependencies": {
+    "redis": "^4.6.4"
+  },
+  "devDependencies": {},
+  "keywords": [],
+  "author": "iLyas Bakouch"
+}
